@@ -5,8 +5,12 @@
  *
  * */
 var express = require('express');
+var morgan  = require('morgan'); // HTTPRequest response time logger
+
+
 var app = express();
 
+app.use(morgan('dev'));
 app.use(express.static('public'));
 
 
