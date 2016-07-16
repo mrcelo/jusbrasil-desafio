@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  form(
+  action='/entities/'
+  method='post'
+  )
+    input(
+    type='text'
+    name='searchTerm'
+    placeholder='Enter your search term'
+    )
+    button(type='submit')
+      p Submit
+
+  ul
+    if locals.results
+      each item in locals.results
+        li #{item._source.title} -  #{item._source.entitytype}
+    else
+      p No hits returned.
