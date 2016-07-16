@@ -7,7 +7,6 @@ var elasticClient = new elasticsearch.Client({
 
 var indexName = "randomindex";
 
-
 /**
  * Delete an existing index
  */
@@ -97,10 +96,8 @@ function createEntity( entity, callback ) {
         console.log(err.message);
     });
 
-
 }
 exports.createEntity = createEntity;
-
 
 function getSuggestions( input ) {
     return elasticClient.suggest({
@@ -120,7 +117,6 @@ function getSuggestions( input ) {
 
 exports.getSuggestions = getSuggestions;
 
-
 module.exports.searchForTitle = function ( searchData, callback ) {
     elasticClient.search({
         index: indexName,
@@ -128,10 +124,18 @@ module.exports.searchForTitle = function ( searchData, callback ) {
         body:  {
             query: {
 
-                match: {
-                    "title": searchData
-                }
+                bool: {
+                    must: [
+                        {
+                            "wildcard": {
 
+                                "title": {
+                                    "value": "*" + searchData + "*"
+                                }
+                            }
+                        }
+                    ]
+                }
 
             }
 
@@ -150,10 +154,26 @@ module.exports.searchForType  = function ( searchData, callback ) {
         body:  {
             query: {
 
-                match: {
-                    "entitytype": searchData
-                }
+                // match: {
+                //     "wildcard": {
+                //
+                //         "entitytype": {
+                //             "value": "*" + searchData + "*"
+                //         }
+                //     }
+                // }
+                bool: {
+                    must: [
+                        {
+                            "wildcard": {
 
+                                "entitytype": {
+                                    "value": "*" + searchData + "*"
+                                }
+                            }
+                        }
+                    ]
+                }
 
             }
 
@@ -175,14 +195,30 @@ module.exports.searchForTypeAndTitle = function ( title, type, callback ) {
 
                 bool: {
                     must: [
-                        { "term": { "title": title } },
-                        { "term": { "entitytype": type } }
+                        {
+
+                            "wildcard": {
+
+                                "title": {
+                                    "value": "*" + title + "*"
+                                }
+                            }
+
+                        },
+                        {
+
+                            "wildcard": {
+
+                                "entitytype": {
+                                    "value": "*" + type + "*"
+                                }
+                            }
+
+                        }
 
                     ]
 
-
                 }
-
 
             }
 
@@ -227,7 +263,6 @@ module.exports.search = function ( searchData, callback ) {
     });
 };
 
-
 module.exports.getAll = function ( callback ) {
     elasticClient.search({
         index: indexName,
@@ -236,7 +271,6 @@ module.exports.getAll = function ( callback ) {
             query: {
 
                 match_all: {}
-
 
             }
 
