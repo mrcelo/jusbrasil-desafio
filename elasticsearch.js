@@ -7,6 +7,7 @@ var elasticClient = new elasticsearch.Client({
 
 var indexName = "randomindex";
 
+
 /**
  * Delete an existing index
  */
@@ -40,12 +41,12 @@ exports.indexExists = indexExists;
 function initMapping() {
     return elasticClient.indices.putMapping({
         index: indexName,
-        type:  "document",
+        type:  "entity",
         body:  {
             properties: {
-                title:       { type: "string" },
-                contenttype: { type: "string" },
-                suggest:     {
+                title:      { type: "string" },
+                entitytype: { type: "string" },
+                suggest:    {
                     type:            "completion",
                     analyzer:        "simple",
                     search_analyzer: "simple",
@@ -57,13 +58,14 @@ function initMapping() {
 }
 exports.initMapping = initMapping;
 
+// addEntity initializes the store; from app.js
 function addEntity( entity ) {
     return elasticClient.index({
         index: indexName,
-        type:  "document",
+        type:  "entity",
         body:  {
             title:      entity.title,
-            entitytype: entity.type,
+            entitytype: entity.entitytype,
             suggest:    {
                 input:   entity.title.split(" "),
                 output:  entity.title,
@@ -74,10 +76,36 @@ function addEntity( entity ) {
 }
 exports.addEntity = addEntity;
 
+// createEntity creates at runtime
+function createEntity( entity, callback ) {
+    elasticClient.create({
+        index: indexName,
+        type:  "entity",
+        body:  {
+            title:      entity.title,
+            entitytype: entity.entitytype,
+            suggest:    {
+                input:   entity.title.split(" "),
+                output:  entity.title,
+                payload: entity.metadata || {}
+            }
+        }
+    }).then(function ( resp ) {
+        callback(resp);
+    }, function ( err ) {
+        callback(err.message);
+        console.log(err.message);
+    });
+
+
+}
+exports.createEntity = createEntity;
+
+
 function getSuggestions( input ) {
     return elasticClient.suggest({
         index: indexName,
-        type:  "document",
+        type:  "entity",
         body:  {
             docsuggest: {
                 text:       input,
@@ -92,3 +120,131 @@ function getSuggestions( input ) {
 
 exports.getSuggestions = getSuggestions;
 
+
+module.exports.searchForTitle = function ( searchData, callback ) {
+    elasticClient.search({
+        index: indexName,
+        type:  'entity',
+        body:  {
+            query: {
+
+                match: {
+                    "title": searchData
+                }
+
+
+            }
+
+        }
+    }).then(function ( resp ) {
+        callback(resp.hits.hits);
+    }, function ( err ) {
+        callback(err.message);
+        console.log(err.message);
+    });
+};
+module.exports.searchForType  = function ( searchData, callback ) {
+    elasticClient.search({
+        index: indexName,
+        type:  'entity',
+        body:  {
+            query: {
+
+                match: {
+                    "entitytype": searchData
+                }
+
+
+            }
+
+        }
+    }).then(function ( resp ) {
+        callback(resp.hits.hits);
+    }, function ( err ) {
+        callback(err.message);
+        console.log(err.message);
+    });
+};
+
+module.exports.searchForTypeAndTitle = function ( title, type, callback ) {
+    elasticClient.search({
+        index: indexName,
+        type:  'entity',
+        body:  {
+            query: {
+
+                bool: {
+                    must: [
+                        { "term": { "title": title } },
+                        { "term": { "entitytype": type } }
+
+                    ]
+
+
+                }
+
+
+            }
+
+        }
+    }).then(function ( resp ) {
+        callback(resp.hits.hits);
+    }, function ( err ) {
+        callback(err.message);
+        console.log(err.message);
+    });
+};
+//
+// function getEntitiesByType(input) {
+//     return elasticClient.search({
+//         index: 'indexName',
+//         q: 'entitytype:' + input;
+//
+//     })
+// }
+// exports.getEntitiesByType = getEntitiesByType;
+
+module.exports.search = function ( searchData, callback ) {
+    elasticClient.search({
+        index: indexName,
+        type:  'entity',
+        body:  {
+            "query": {
+                "wildcard": {
+
+                    "title": {
+                        "value": "*" + searchData + "*"
+                    }
+                }
+            }
+
+        }
+    }).then(function ( resp ) {
+        callback(resp.hits.hits);
+    }, function ( err ) {
+        callback(err.message);
+        console.log(err.message);
+    });
+};
+
+
+module.exports.getAll = function ( callback ) {
+    elasticClient.search({
+        index: indexName,
+        type:  'entity',
+        body:  {
+            query: {
+
+                match_all: {}
+
+
+            }
+
+        }
+    }).then(function ( resp ) {
+        callback(resp);
+    }, function ( err ) {
+        callback(err.message);
+        console.log(err.message);
+    });
+};
