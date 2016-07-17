@@ -5,7 +5,7 @@ var elasticClient = new elasticsearch.Client({
     log:  'info'
 });
 
-var indexName = "randomindex";
+var indexName = "entities";
 
 /**
  * Delete an existing index
