@@ -40,7 +40,7 @@ describe('api calls', function () {
                     .get('/entities')
                     .query('q=Supertested&entitytype=test')
                     .end(function ( err, res ) {
-                        res.status.should.equal(200);
+                        res.body.total.should.notEqual(0);
                         done();
                     })
             });

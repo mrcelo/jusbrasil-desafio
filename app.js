@@ -19,7 +19,7 @@ app.use(cookieParser());
 // serve ./public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// route entities
+// route entities api
 app.use('/entities', entities);
 
 // catch 404 and forward to error handler

@@ -76,7 +76,7 @@ var indexName = "entities";
 // exports.addEntity = addEntity;
 
 // create an entity
-function createEntity( entity, callback ) {
+module.exports.createEntity = function createEntity( entity, callback ) {
     elasticClient.create({
         index: indexName,
         type:  "entity",
@@ -96,186 +96,374 @@ function createEntity( entity, callback ) {
         console.log(err.message);
     });
 
-}
-exports.createEntity = createEntity;
-
-
-module.exports.searchForTitle = function ( searchData, callback ) {
-    elasticClient.search({
-        index: indexName,
-        type:  'entity',
-        body:  {
-            query: {
-
-                bool: {
-                    must: [
-                        {
-                            "wildcard": {
-
-                                "title": {
-                                    "value": "*" + searchData + "*"
-                                }
-                            }
-                        }
-                    ]
-                }
-            }
-
-        }
-    }).then(function ( resp ) {
-
-        callback(resp.hits);
-    }, function ( err ) {
-        callback(err.message);
-        console.log(err.message);
-    });
 };
 
-module.exports.searchForType  = function ( searchData, callback ) {
-    elasticClient.search({
-        index: indexName,
-        type:  'entity',
-        body:  {
-            query: {
+// module.exports.searchForTitle = function ( searchData, callback ) {
+//     elasticClient.search({
+//         index: indexName,
+//         type:  'entity',
+//         body:  {
+//             query: {
+//                 bool: {
+//                     must: [
+//                         {
+//                             "wildcard": {
+//                                 "title": {
+//                                     "value": "*" + searchData + "*"
+//                                 }
+//                             }
+//                         }
+//                     ]
+//                 }
+//             }
+//
+//         }
+//     }).then(function ( resp ) {
+//         callback(resp.hits);
+//     }, function ( err ) {
+//         callback(err.message);
+//         console.log(err.message);
+//     });
+// };
+//
+// module.exports.searchForType = function ( searchData, callback ) {
+//     elasticClient.search({
+//         index: indexName,
+//         type:  'entity',
+//         body:  {
+//             query: {
+//                 bool: {
+//                     must: [
+//                         {
+//                             "wildcard": {
+//
+//                                 "entitytype": {
+//
+//                                     "value": "*" + searchData + "*"
+//
+//                                 }
+//                             }
+//                         }
+//                     ]
+//                 }
+//
+//             }
+//
+//         }
+//     }).then(function ( resp ) {
+//         callback(resp.hits);
+//     }, function ( err ) {
+//         callback(err.message);
+//         console.log(err.message);
+//     });
+// };
+//
+// module.exports.searchForTypeAndTitle = function ( title, type, callback ) {
+//     elasticClient.search({
+//         index: indexName,
+//         type:  'entity',
+//         body:  {
+//             query: {
+//                 bool: {
+//                     must: [
+//                         {
+//                             "wildcard": {
+//
+//                                 "title": {
+//
+//                                     "value": "*" + title + "*"
+//
+//                                 }
+//                             }
+//
+//                         },
+//
+//                         {
+//                             "wildcard": {
+//
+//                                 "entitytype": {
+//
+//                                     "value": "*" + type + "*"
+//
+//                                 }
+//                             }
+//
+//                         }
+//                     ]
+//
+//                 }
+//
+//             }
+//
+//         }
+//     }).then(function ( resp ) {
+//         callback(resp.hits);
+//     }, function ( err ) {
+//         callback(err.message);
+//         console.log(err.message);
+//     });
+// };
+//
+// module.exports.searchPhraseInTitle = function ( searchData, callback ) {
+//
+//     elasticClient.search({
+//         index: indexName,
+//         type:  'entity',
+//         body:  {
+//             query: {
+//                 "match": {
+//                     "title": {
+//
+//                         "query":    searchData,
+//                         "operator": "and"
+//
+//                     }
+//                 }
+//
+//             }
+//
+//         }
+//     }).then(function ( resp ) {
+//
+//         callback(resp.hits);
+//     }, function ( err ) {
+//         callback(err.message);
+//         console.log(err.message);
+//     });
+// };
+// module.exports.searchPhraseInType  = function ( searchData, callback ) {
+//
+//     elasticClient.search({
+//         index: indexName,
+//         type:  'entity',
+//         body:  {
+//             query: {
+//                 "match": {
+//                     "entitytype": {
+//
+//                         "query":    searchData,
+//                         "operator": "and"
+//
+//                     }
+//                 }
+//
+//             }
+//
+//         }
+//     }).then(function ( resp ) {
+//         callback(resp.hits);
+//     }, function ( err ) {
+//         callback(err.message);
+//         console.log(err.message);
+//     });
+// };
+//
+// module.exports.getAll = function ( callback ) {
+//     elasticClient.search({
+//         index: indexName,
+//         type:  'entity',
+//         body:  {
+//             query: {
+//                 match_all: {}
+//             }
+//
+//         }
+//     }).then(function ( resp ) {
+//         callback(resp.hits);
+//     }, function ( err ) {
+//         callback(err.message);
+//         console.log(err.message);
+//     });
+// };
 
-                bool: {
-                    must: [
-                        {
-                            "wildcard": {
+module.exports.execute = function ( title, type, callback ) {
 
-                                "entitytype": {
-                                    "value": "*" + searchData + "*"
+    if ( (title) && (type) ) {
+
+        elasticClient.search({
+            index: indexName,
+            type:  'entity',
+            body:  {
+                query: {
+                    bool: {
+                        must: [
+                            {
+                                "wildcard": {
+
+                                    "title": {
+
+                                        "value": "*" + title + "*"
+
+                                    }
                                 }
-                            }
-                        }
-                    ]
-                }
 
-            }
+                            },
 
-        }
-    }).then(function ( resp ) {
-        callback(resp.hits);
-    }, function ( err ) {
-        callback(err.message);
-        console.log(err.message);
-    });
-};
+                            {
+                                "wildcard": {
 
-module.exports.searchForTypeAndTitle = function ( title, type, callback ) {
-    elasticClient.search({
-        index: indexName,
-        type:  'entity',
-        body:  {
-            query: {
+                                    "entitytype": {
 
-                bool: {
-                    must: [
-                        {
+                                        "value": "*" + type + "*"
 
-                            "wildcard": {
-
-                                "title": {
-                                    "value": "*" + title + "*"
+                                    }
                                 }
+
                             }
+                        ]
 
-                        },
-                        {
-
-                            "wildcard": {
-
-                                "entitytype": {
-                                    "value": "*" + type + "*"
-                                }
-                            }
-
-                        }
-                    ]
-
-                }
-
-            }
-
-        }
-    }).then(function ( resp ) {
-        callback(resp.hits);
-    }, function ( err ) {
-        callback(err.message);
-        console.log(err.message);
-    });
-};
-
-module.exports.searchPhraseInTitle = function ( searchData, callback ) {
-
-    elasticClient.search({
-        index: indexName,
-        type:  'entity',
-        body:  {
-            query: {
-
-                "match": {
-                    "title": {
-                        "query":    searchData,
-                        "operator": "and"
                     }
+
                 }
 
             }
+        }).then(function ( resp ) {
+            callback(resp.hits);
+        }, function ( err ) {
+            callback(err.message);
+            console.log(err.message);
+        });
 
-        }
-    }).then(function ( resp ) {
+    }
+    else if ( title ) {
+        if ( hasWhiteSpace(title) ) {
 
-        callback(resp.hits);
-    }, function ( err ) {
-        callback(err.message);
-        console.log(err.message);
-    });
-};
-module.exports.searchPhraseInType  = function ( searchData, callback ) {
+            elasticClient.search({
+                index: indexName,
+                type:  'entity',
+                body:  {
+                    query: {
+                        "match": {
+                            "title": {
 
-    elasticClient.search({
-        index: indexName,
-        type:  'entity',
-        body:  {
-            query: {
+                                "query":    title,
+                                "operator": "and"
 
-                "match": {
-                    "entitytype": {
-                        "query":    searchData,
-                        "operator": "and"
+                            }
+                        }
+
                     }
+
+                }
+            }).then(function ( resp ) {
+
+                callback(resp.hits);
+            }, function ( err ) {
+                callback(err.message);
+                console.log(err.message);
+            });
+
+        }
+        else {
+
+            elasticClient.search({
+                index: indexName,
+                type:  'entity',
+                body:  {
+                    query: {
+                        bool: {
+                            must: [
+                                {
+                                    "wildcard": {
+                                        "title": {
+                                            "value": "*" + title + "*"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+
+                }
+            }).then(function ( resp ) {
+                callback(resp.hits);
+            }, function ( err ) {
+                callback(err.message);
+                console.log(err.message);
+            });
+
+        }
+    }
+    else if ( type ) {
+        if ( hasWhiteSpace(type) ) {
+
+            elasticClient.search({
+                index: indexName,
+                type:  'entity',
+                body:  {
+                    query: {
+                        "match": {
+                            "entitytype": {
+
+                                "query":    type,
+                                "operator": "and"
+
+                            }
+                        }
+
+                    }
+
+                }
+            }).then(function ( resp ) {
+                callback(resp.hits);
+            }, function ( err ) {
+                callback(err.message);
+                console.log(err.message);
+            });
+
+        } else {
+            elasticClient.search({
+                index: indexName,
+                type:  'entity',
+                body:  {
+                    query: {
+                        bool: {
+                            must: [
+                                {
+                                    "wildcard": {
+
+                                        "entitytype": {
+
+                                            "value": "*" + type + "*"
+
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+
+                    }
+
+                }
+            }).then(function ( resp ) {
+                callback(resp.hits);
+            }, function ( err ) {
+                callback(err.message);
+                console.log(err.message);
+            });
+        }
+    }
+    else {
+        // get all
+        elasticClient.search({
+            index: indexName,
+            type:  'entity',
+            body:  {
+                query: {
+                    match_all: {}
                 }
 
             }
+        }).then(function ( resp ) {
+            callback(resp.hits);
+        }, function ( err ) {
+            callback(err.message);
+            console.log(err.message);
+        });
+    }
 
-        }
-    }).then(function ( resp ) {
+    function hasWhiteSpace( s ) {
+        return s.indexOf(' ') >= 0;
+    }
 
-        callback(resp.hits);
-    }, function ( err ) {
-        callback(err.message);
-        console.log(err.message);
-    });
-};
-
-module.exports.getAll = function ( callback ) {
-    elasticClient.search({
-        index: indexName,
-        type:  'entity',
-        body:  {
-            query: {
-
-                match_all: {}
-
-            }
-
-        }
-    }).then(function ( resp ) {
-
-        callback(resp.hits);
-    }, function ( err ) {
-        callback(err.message);
-        console.log(err.message);
-    });
 };
