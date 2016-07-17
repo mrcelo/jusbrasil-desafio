@@ -25,12 +25,12 @@ function hasWhiteSpace( s ) {
 
 //
 // /* GET suggestions */
-// router.get('/suggest/:input', function ( req, res, next ) {
-//     elastic.getSuggestions(req.params.input).then(function ( result ) {
-//         res.json(result)
-//     });
-// });
-//
+router.get('/suggest/:input', function ( req, res, next ) {
+    searchModule.getSuggestions(req.params.input).then(function ( result ) {
+        res.json(result)
+    });
+});
+
 
 router.get('/', function ( req, res ) {
     var query      = decodeURIComponent(req.query.q),
