@@ -6,76 +6,76 @@ var elasticClient = new elasticsearch.Client({
 });
 
 var indexName = "entities";
+//
+// /**
+//  * Delete an existing index
+//  */
+// function deleteIndex() {
+//     return elasticClient.indices.delete({
+//         index: indexName
+//     });
+// }
+// exports.deleteIndex = deleteIndex;
+//
+// /**
+//  * create the index
+//  */
+// function initIndex() {
+//     return elasticClient.indices.create({
+//         index: indexName
+//     });
+// }
+// exports.initIndex = initIndex;
+//
+// /**
+//  * check if the index exists
+//  */
+// function indexExists() {
+//     return elasticClient.indices.exists({
+//         index: indexName
+//     });
+// }
+// exports.indexExists = indexExists;
+//
+// function initMapping() {
+//     return elasticClient.indices.putMapping({
+//         index: indexName,
+//         type:  "entity",
+//         body:  {
+//             properties: {
+//                 title:      { type: "string" },
+//                 entitytype: { type: "string" },
+//                 suggest:    {
+//                     type:            "completion",
+//                     analyzer:        "simple",
+//                     search_analyzer: "simple",
+//                     payloads:        true
+//                 }
+//             }
+//         }
+//     });
+// }
+// exports.initMapping = initMapping;
+//
+// // addEntity initializes the store; from app.js
+// function addEntity( entity ) {
+//     return elasticClient.index({
+//         index: indexName,
+//         type:  "entity",
+//         body:  {
+//             title:      entity.title,
+//             entitytype: entity.entitytype,
+//             suggest:    {
+//                 input:   entity.title.split(" "),
+//                 output:  entity.title,
+//                 payload: entity.metadata || {}
+//             }
+//         }
+//     });
+// }
+// exports.addEntity = addEntity;
 
-/**
- * Delete an existing index
- */
-function deleteIndex() {
-    return elasticClient.indices.delete({
-        index: indexName
-    });
-}
-exports.deleteIndex = deleteIndex;
-
-/**
- * create the index
- */
-function initIndex() {
-    return elasticClient.indices.create({
-        index: indexName
-    });
-}
-exports.initIndex = initIndex;
-
-/**
- * check if the index exists
- */
-function indexExists() {
-    return elasticClient.indices.exists({
-        index: indexName
-    });
-}
-exports.indexExists = indexExists;
-
-function initMapping() {
-    return elasticClient.indices.putMapping({
-        index: indexName,
-        type:  "entity",
-        body:  {
-            properties: {
-                title:      { type: "string" },
-                entitytype: { type: "string" },
-                suggest:    {
-                    type:            "completion",
-                    analyzer:        "simple",
-                    search_analyzer: "simple",
-                    payloads:        true
-                }
-            }
-        }
-    });
-}
-exports.initMapping = initMapping;
-
-// addEntity initializes the store; from app.js
-function addEntity( entity ) {
-    return elasticClient.index({
-        index: indexName,
-        type:  "entity",
-        body:  {
-            title:      entity.title,
-            entitytype: entity.entitytype,
-            suggest:    {
-                input:   entity.title.split(" "),
-                output:  entity.title,
-                payload: entity.metadata || {}
-            }
-        }
-    });
-}
-exports.addEntity = addEntity;
-
-// createEntity creates at runtime
+// create an entity
 function createEntity( entity, callback ) {
     elasticClient.create({
         index: indexName,
@@ -99,23 +99,6 @@ function createEntity( entity, callback ) {
 }
 exports.createEntity = createEntity;
 
-function getSuggestions( input ) {
-    return elasticClient.suggest({
-        index: indexName,
-        type:  "entity",
-        body:  {
-            docsuggest: {
-                text:       input,
-                completion: {
-                    field: "suggest",
-                    fuzzy: true
-                }
-            }
-        }
-    })
-}
-
-exports.getSuggestions = getSuggestions;
 
 module.exports.searchForTitle = function ( searchData, callback ) {
     elasticClient.search({
@@ -147,6 +130,7 @@ module.exports.searchForTitle = function ( searchData, callback ) {
         console.log(err.message);
     });
 };
+
 module.exports.searchForType  = function ( searchData, callback ) {
     elasticClient.search({
         index: indexName,
