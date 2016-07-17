@@ -136,12 +136,12 @@ module.exports.searchForTitle = function ( searchData, callback ) {
                         }
                     ]
                 }
-
             }
 
         }
     }).then(function ( resp ) {
-        callback(resp.hits.hits);
+
+        callback(resp.hits);
     }, function ( err ) {
         callback(err.message);
         console.log(err.message);
@@ -154,14 +154,6 @@ module.exports.searchForType  = function ( searchData, callback ) {
         body:  {
             query: {
 
-                // match: {
-                //     "wildcard": {
-                //
-                //         "entitytype": {
-                //             "value": "*" + searchData + "*"
-                //         }
-                //     }
-                // }
                 bool: {
                     must: [
                         {
@@ -179,7 +171,7 @@ module.exports.searchForType  = function ( searchData, callback ) {
 
         }
     }).then(function ( resp ) {
-        callback(resp.hits.hits);
+        callback(resp.hits);
     }, function ( err ) {
         callback(err.message);
         console.log(err.message);
@@ -215,7 +207,6 @@ module.exports.searchForTypeAndTitle = function ( title, type, callback ) {
                             }
 
                         }
-
                     ]
 
                 }
@@ -224,39 +215,60 @@ module.exports.searchForTypeAndTitle = function ( title, type, callback ) {
 
         }
     }).then(function ( resp ) {
-        callback(resp.hits.hits);
+        callback(resp.hits);
     }, function ( err ) {
         callback(err.message);
         console.log(err.message);
     });
 };
-//
-// function getEntitiesByType(input) {
-//     return elasticClient.search({
-//         index: 'indexName',
-//         q: 'entitytype:' + input;
-//
-//     })
-// }
-// exports.getEntitiesByType = getEntitiesByType;
 
-module.exports.search = function ( searchData, callback ) {
+module.exports.searchPhraseInTitle = function ( searchData, callback ) {
+
     elasticClient.search({
         index: indexName,
         type:  'entity',
         body:  {
-            "query": {
-                "wildcard": {
+            query: {
 
+                "match": {
                     "title": {
-                        "value": "*" + searchData + "*"
+                        "query":    searchData,
+                        "operator": "and"
                     }
                 }
+
             }
 
         }
     }).then(function ( resp ) {
-        callback(resp.hits.hits);
+
+        callback(resp.hits);
+    }, function ( err ) {
+        callback(err.message);
+        console.log(err.message);
+    });
+};
+module.exports.searchPhraseInType  = function ( searchData, callback ) {
+
+    elasticClient.search({
+        index: indexName,
+        type:  'entity',
+        body:  {
+            query: {
+
+                "match": {
+                    "entitytype": {
+                        "query":    searchData,
+                        "operator": "and"
+                    }
+                }
+
+            }
+
+        }
+    }).then(function ( resp ) {
+
+        callback(resp.hits);
     }, function ( err ) {
         callback(err.message);
         console.log(err.message);
@@ -276,7 +288,8 @@ module.exports.getAll = function ( callback ) {
 
         }
     }).then(function ( resp ) {
-        callback(resp);
+
+        callback(resp.hits);
     }, function ( err ) {
         callback(err.message);
         console.log(err.message);

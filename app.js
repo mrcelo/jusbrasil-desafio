@@ -60,37 +60,36 @@ app.use(function ( err, req, res, next ) {
     });
 });
 
-
-elastic.indexExists().then(function ( exists ) {
-    // if ( exists ) {
-    //     return elastic.deleteIndex();
-    // }
-}).then(function () {
-    return elastic.initIndex().then(elastic.initMapping()).then(function () {
-        //Add a few book titles for the autocomplete
-        //elasticsearch offers a bulk functionality as well, but this is for a different time
-        var promises = [
-            'Thing Explainer',
-            'The Internet Is a Playground',
-            'The Pragmatic Programmer',
-            'The Hitchhikers Guide to the Galaxy',
-            'Trial of the Clone',
-            'All Quiet on the Western Front',
-            'The Animal Farm',
-            'The Circle'
-        ].map(function ( title ) {
-            return elastic.addEntity({
-                title:      title,
-                entitytype: "TOPIC",
-                metadata:   {
-                    titleLength: title.length
-                }
-            });
-        });
-
-        return Promise.all(promises);
-    });
-});
+// elastic.indexExists().then(function ( exists ) {
+//     // if ( exists ) {
+//     //     return elastic.deleteIndex();
+//     // }
+// }).then(function () {
+//     return elastic.initIndex().then(elastic.initMapping()).then(function () {
+//         //Add a few book titles for the autocomplete
+//         //elasticsearch offers a bulk functionality as well, but this is for a different time
+//         var promises = [
+//             'Thing Explainer',
+//             'The Internet Is a Playground',
+//             'The Pragmatic Programmer',
+//             'The Hitchhikers Guide to the Galaxy',
+//             'Trial of the Clone',
+//             'All Quiet on the Western Front',
+//             'The Animal Farm',
+//             'The Circle'
+//         ].map(function ( title ) {
+//             return elastic.addEntity({
+//                 title:      title,
+//                 entitytype: "TOPIC",
+//                 metadata:   {
+//                     titleLength: title.length
+//                 }
+//             });
+//         });
+//
+//         return Promise.all(promises);
+//     });
+// });
 
 
 module.exports = app;

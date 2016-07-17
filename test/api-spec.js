@@ -1,11 +1,22 @@
 /**
  * Created by Marcelo on 7/16/16.
  */
-var app = require('../app');
-var should = require('should'),
+var app       = require('../app'),
+    should    = require('should'),
     supertest = require('supertest');
+
 describe('api calls', function () {
 
+    it('should have elasticsearch running', function ( done ) {
+        supertest(app)
+            .get('/entities/')
+            .expect(200)
+            .end(function ( err, res ) {
+                
+                done();
+            })
+
+    });
 
     it('should return valid json', function ( done ) {
         supertest(app)
@@ -30,7 +41,7 @@ describe('api calls', function () {
                     .query('q=Supertested&entitytype=test')
                     .end(function ( err, res ) {
                         res.status.should.equal(200);
-
+                        done();
                     })
             });
         done();

@@ -1,9 +1,7 @@
 var express = require('express');
 var router  = express.Router();
 
-
 var searchModule = require('../elasticsearch');
-
 
 var Ajv = require('ajv');
 var ajv = new Ajv();
@@ -18,23 +16,13 @@ var entitySchema = {
         }
 
     },
-    "required":   ["title", "entitytype"]
+    "required":   [ "title", "entitytype" ]
 
 };
+function hasWhiteSpace( s ) {
+    return s.indexOf(' ') >= 0;
+}
 
-// /* GET entities */
-// router.get('/', function ( req, res, next ) {
-//     elastic.getEntities().then(function ( result ) {
-//         res.json(result)
-//     });
-// });
-//
-// // // GET specific entity
-// router.get('/:q', function ( req, res, next ) {
-//     elastic.getEntities(req.params.q).then(function ( result ) {
-//         res.json(result)
-//     });
-// });
 //
 // /* GET suggestions */
 // router.get('/suggest/:input', function ( req, res, next ) {
@@ -43,42 +31,49 @@ var entitySchema = {
 //     });
 // });
 //
-// /* GET search */
-// router.get('/search/:input', function ( req, res, next ) {
-//     elastic.searchForTitle(req.params.input).then(function ( result ) {
-//         res.json(result)
-//     });
-// });
-//
-// /* POST document to be indexed */
-// router.post('/', function ( req, res, next ) {
-//     elastic.addEntity(req.body).then(function ( result ) {
-//         res.json(result)
-//     });
-// });
-
 
 router.get('/', function ( req, res ) {
+    var query      = decodeURIComponent(req.query.q),
+        entitytype = decodeURIComponent(req.query.entitytype);
+    console.log("Request query: " + query + "\n" + "Request entitytype:" + entitytype);
 
     if ( (req.query.q) && (req.query.entitytype) ) {
-        searchModule.searchForTypeAndTitle(req.query.q, req.query.entitytype, function ( data ) {
+        searchModule.searchForTypeAndTitle(query, entitytype, function ( data ) {
             res.json(data)
-        })
+        });
     }
     else if ( req.query.q ) {
 
-        searchModule.searchForTitle(req.query.q, function ( data ) {
-            res.json(data)
+        if ( hasWhiteSpace(query) ) {
+            searchModule.searchPhraseInTitle(query, function ( data ) {
+                res.json(data);
+            });
+        } else {
+            searchModule.searchForTitle(query, function ( data ) {
+                res.json(data);
 
-        });
+            });
+        }
     }
 
     else if ( req.query.entitytype ) {
-        searchModule.searchForType(req.query.entitytype, function ( data ) {
+        if ( hasWhiteSpace(entitytype) ) {
+            searchModule.searchPhraseInType(entitytype, function ( data ) {
+                res.json(data);
+            });
+        }
+        searchModule.searchForType(entitytype, function ( data ) {
             res.json(data)
         });
-    } else {
+    }
+
+    else {
         searchModule.getAll(function ( resp ) {
+
+
+
+            // console.log(sources);
+
             res.json(resp);
         })
     }
@@ -98,7 +93,6 @@ router.post('/', function ( req, res ) {
             res.json(result);
         });
     }
-
 
 });
 
