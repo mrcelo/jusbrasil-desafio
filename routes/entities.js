@@ -31,11 +31,11 @@ function hasWhiteSpace( s ) {
  */
 router.get('/', function ( req, res ) {
 
-    // decode URI components to get back original query string, before routing the request to searchmodule
-    var query      = decodeURIComponent(req.query.q),
-        entitytype = decodeURIComponent(req.query.entitytype);
-
-    console.log("Request query: " + query + "\n" + "Request entitytype: " + entitytype);
+    // decode URI components
+    // var query      = decodeURIComponent(req.query.q),
+    //     entitytype = decodeURIComponent(req.query.entitytype);
+    //
+    // console.log("Request query: " + query + "\n" + "Request entitytype: " + entitytype);
 
     searchModule.execute(req.query.q, req.query.entitytype, function ( data ) {
         res.json(data);
@@ -45,7 +45,7 @@ router.get('/', function ( req, res ) {
 });
 
 /**
- * Handle POST requests to '/'
+ * Handle POST requests to '/entities'
  * createEntity endpoint
  */
 router.post('/', function ( req, res ) {
@@ -55,10 +55,12 @@ router.post('/', function ( req, res ) {
     var valid = ajv.validate(entitySchema, req.body);
     if ( !valid ) {
         console.log(ajv.errorsText());
+        res.status(400);
         res.json(ajv.errorsText());
     }
     else {
         searchModule.createEntity(req.body, function ( result ) {
+            res.status(201);
             res.json(result);
         });
     }
