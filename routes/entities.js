@@ -21,14 +21,19 @@ var entitySchema = {
 
 };
 
-function hasWhiteSpace( s ) {
-    return s.indexOf(' ') >= 0;
-}
 
 /**
  * Handle GET requests to '/entities/';
  * Search endpoint
  */
+//
+//
+// router.get('/suggest/:input', function (req, res) {
+//     console.log(req.params.input);
+//     searchModule.getSuggestions(req.params.input).then(function ( result ) {
+//         res.json(result);
+//     });
+// });
 router.get('/', function ( req, res ) {
 
     // decode URI components

@@ -5,7 +5,7 @@
 
 $(function () {
 
-    var APIURL = "http://localhost:3000/entities/";
+    var APIURL =  "http://localhost:3000/entities/";
 
     $('#myform').submit(function ( event ) {
         event.preventDefault();

@@ -7,73 +7,55 @@ var elasticClient = new elasticsearch.Client({
 
 var indexName = "entities";
 //
-// /**
-//  * Delete an existing index
-//  */
-// function deleteIndex() {
-//     return elasticClient.indices.delete({
-//         index: indexName
-//     });
-// }
-// exports.deleteIndex = deleteIndex;
+/**
+ * Delete an existing index
+ */
+function deleteIndex() {
+    return elasticClient.indices.delete({
+        index: indexName
+    });
+}
+exports.deleteIndex = deleteIndex;
+
+/**
+ * create the index
+ */
+function initIndex() {
+    return elasticClient.indices.create({
+        index: indexName
+    });
+}
+exports.initIndex = initIndex;
+
+/**
+ * check if the index exists
+ */
+function indexExists() {
+    return elasticClient.indices.exists({
+        index: indexName
+    });
+}
+exports.indexExists = indexExists;
+
+function initMapping() {
+    return elasticClient.indices.putMapping({
+        index: indexName,
+        type:  "entity",
+
+        body:  {
+            "_all": {
+                "index_analyzer": "nGram_analyzer",
+                "search_analyzer": "whitespace_analyzer"
+            },
+            properties: {
+                title:      { type: "string" },
+                entitytype: { type: "string" }
+            }
+        }
+    });
+}
+exports.initMapping = initMapping;
 //
-// /**
-//  * create the index
-//  */
-// function initIndex() {
-//     return elasticClient.indices.create({
-//         index: indexName
-//     });
-// }
-// exports.initIndex = initIndex;
-//
-// /**
-//  * check if the index exists
-//  */
-// function indexExists() {
-//     return elasticClient.indices.exists({
-//         index: indexName
-//     });
-// }
-// exports.indexExists = indexExists;
-//
-// function initMapping() {
-//     return elasticClient.indices.putMapping({
-//         index: indexName,
-//         type:  "entity",
-//         body:  {
-//             properties: {
-//                 title:      { type: "string" },
-//                 entitytype: { type: "string" },
-//                 suggest:    {
-//                     type:            "completion",
-//                     analyzer:        "simple",
-//                     search_analyzer: "simple",
-//                     payloads:        true
-//                 }
-//             }
-//         }
-//     });
-// }
-// exports.initMapping = initMapping;
-//
-// // addEntity initializes the store; from app.js
-// function addEntity( entity ) {
-//     return elasticClient.index({
-//         index: indexName,
-//         type:  "entity",
-//         body:  {
-//             title:      entity.title,
-//             entitytype: entity.entitytype,
-//             suggest:    {
-//                 input:   entity.title.split(" "),
-//                 output:  entity.title,
-//                 payload: entity.metadata || {}
-//             }
-//         }
-//     });
-// }
-// exports.addEntity = addEntity;
 
 // create an entity
 module.exports.createEntity = function createEntity( entity, callback ) {
@@ -82,12 +64,7 @@ module.exports.createEntity = function createEntity( entity, callback ) {
         type:  "entity",
         body:  {
             title:      entity.title,
-            entitytype: entity.entitytype,
-            suggest:    {
-                input:   entity.title.split(" "),
-                output:  entity.title,
-                payload: entity.metadata || {}
-            }
+            entitytype: entity.entitytype
         }
     }).then(function ( resp ) {
         callback(resp);
@@ -156,11 +133,11 @@ module.exports.execute = function ( title, type, callback ) {
                 type:  'entity',
                 body:  {
                     query: {
-                        "match": {
+                        "match_phrase_prefix": {
                             "title": {
 
                                 "query":    title,
-                                "operator": "and"
+                                "max_expansions": 10
 
                             }
                         }
@@ -290,3 +267,20 @@ module.exports.execute = function ( title, type, callback ) {
     }
 
 };
+
+// module.exports.getSuggestions = function(input){
+//
+//     return elasticClient.suggest({
+//         index: indexName,
+//         type: "entity",
+//         body: {
+//             suggester: {
+//                 text: input,
+//                 completion: {
+//                     field: "suggester",
+//                     fuzzy: true
+//                 }
+//             }
+//         }
+//     })
+// };

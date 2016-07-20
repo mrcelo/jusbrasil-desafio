@@ -4,6 +4,8 @@ var favicon      = require('serve-favicon');
 var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
+var elastic = require('./elasticsearch')
+
 
 var app = express();
 
@@ -52,15 +54,14 @@ app.use(function ( err, req, res, next ) {
     //     error:   {}
     // });
 });
-
+//
 // elastic.indexExists().then(function ( exists ) {
-//     // if ( exists ) {
-//     //     return elastic.deleteIndex();
-//     // }
+//     if ( exists ) {
+//         return elastic.deleteIndex();
+//     }
 // }).then(function () {
 //     return elastic.initIndex().then(elastic.initMapping()).then(function () {
-//         //Add a few book titles for the autocomplete
-//         //elasticsearch offers a bulk functionality as well, but this is for a different time
+//
 //         var promises = [
 //             'Thing Explainer',
 //             'The Internet Is a Playground',
@@ -71,12 +72,9 @@ app.use(function ( err, req, res, next ) {
 //             'The Animal Farm',
 //             'The Circle'
 //         ].map(function ( title ) {
-//             return elastic.addEntity({
+//             return elastic.createEntity({
 //                 title:      title,
-//                 entitytype: "TOPIC",
-//                 metadata:   {
-//                     titleLength: title.length
-//                 }
+//                 entitytype: "Type of entity"
 //             });
 //         });
 //
