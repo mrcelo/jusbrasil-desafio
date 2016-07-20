@@ -7,56 +7,7 @@ var elasticClient = new elasticsearch.Client({
 });
 
 var indexName = "entities";
-//
-/**
- * Delete an existing index
- */
-function deleteIndex() {
-    return elasticClient.indices.delete({
-        index: indexName
-    });
-}
-exports.deleteIndex = deleteIndex;
 
-/**
- * create the index
- */
-function initIndex() {
-    return elasticClient.indices.create({
-        index: indexName
-    });
-}
-exports.initIndex = initIndex;
-
-/**
- * check if the index exists
- */
-function indexExists() {
-    return elasticClient.indices.exists({
-        index: indexName
-    });
-}
-exports.indexExists = indexExists;
-
-function initMapping() {
-    return elasticClient.indices.putMapping({
-        index: indexName,
-        type:  "entity",
-
-        body:  {
-            "_all": {
-                "index_analyzer": "nGram_analyzer",
-                "search_analyzer": "whitespace_analyzer"
-            },
-            properties: {
-                title:      { type: "string" },
-                entitytype: { type: "string" }
-            }
-        }
-    });
-}
-exports.initMapping = initMapping;
-//
 
 // create an entity
 module.exports.createEntity = function createEntity( entity, callback ) {
@@ -268,20 +219,3 @@ module.exports.execute = function ( title, type, callback ) {
     }
 
 };
-
-// module.exports.getSuggestions = function(input){
-//
-//     return elasticClient.suggest({
-//         index: indexName,
-//         type: "entity",
-//         body: {
-//             suggester: {
-//                 text: input,
-//                 completion: {
-//                     field: "suggester",
-//                     fuzzy: true
-//                 }
-//             }
-//         }
-//     })
-// };

@@ -5,7 +5,7 @@
 
 $(function () {
 
-    var APIURL = "https://searchngin.herokuapp.com/entities";
+    var APIURL = "http://localhost:3000/entities";
     var total  = 0;
     $('#myform').submit(function ( event ) {
         event.preventDefault();
@@ -15,22 +15,6 @@ $(function () {
             $('.searchTerm').val("");
 
         }
-        //else {
-        //     $.ajax({
-        //         type:        "GET",
-        //         url:         APIURL,
-        //         contentType: "application/json; charset=utf-8",
-        //         cache:       false,
-        //         success:     function ( data ) {
-        //
-        //             data.hits.map(function ( hit ) {
-        //                 console.log(hit._source.title);
-        //                 $('ul').append('<li>' + hit._source.title + '</li>');
-        //             });
-        //         }
-        //     });
-        // }
-
         $.ajax({
             type:        "GET",
             url:         APIURL,
