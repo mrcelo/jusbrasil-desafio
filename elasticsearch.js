@@ -1,7 +1,8 @@
 var elasticsearch = require('elasticsearch');
 
 var elasticClient = new elasticsearch.Client({
-    host: 'localhost:9200',
+    host: 'https://54jesnlt:zn1lgjbidi6kggld@ivy-8442486.us-east-1.bonsai.io',
+    auth: '54jesnlt:zn1lgjbidi6kggld',
     log:  'info'
 });
 
