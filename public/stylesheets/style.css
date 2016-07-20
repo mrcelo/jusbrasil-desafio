@@ -243,3 +243,11 @@ ol li {
     color: darkgray;
 }
 
+.tip {
+    text-align: center;
+    font-weight: 100;
+    font-style: italic;
+    font-size: 12px;
+    margin-left: 50px;
+    color: #666;
+}
