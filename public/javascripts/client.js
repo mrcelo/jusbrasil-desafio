@@ -5,7 +5,7 @@
 
 $(function () {
 
-    var APIURL = "https://searchngin.herokuapp.com/entities";
+    var APIURL = "http://localhost:3000/entities";
     var total  = 0;
     $('#myform').submit(function ( event ) {
         event.preventDefault();
@@ -74,7 +74,8 @@ $(function () {
                     response($.map(data.hits, function ( item ) {
                         return {
                             label: item._source.title,
-                            value: item._source.entitytype
+                            value: item._source.title,
+                            type:  item._source.entitytype
                         }
                     }));
 
@@ -86,7 +87,7 @@ $(function () {
             // log(ui.item ? "Selected: " + ui.item.label : "Nothing selected, input was " + this.value);
             $('ol').empty();
             $('ol').append('<h3>Results (' + total + ')</h3>');
-            $('ol').append('<li>' + ui.item.label + '<span class="type">' + ui.item.value + '</span>' + '</li>');
+            $('ol').append('<li>' + ui.item.label + '<span class="type">' + ui.item.type + '</span>' + '</li>');
         }
     })
 
