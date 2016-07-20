@@ -1,8 +1,245 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    font: 14px "Roboto Condensed", Helvetica, Arial, sans-serif;
+    background: #2F3238;
+    color: #FFFFFF;
+    box-sizing: border-box;
 }
 
 a {
-  color: #00B7FF;
+    color: #09ADC9;
 }
+
+.main {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+
+    border-radius: 3px;
+
+}
+
+/*.main h1 {*/
+
+/*}*/
+
+/*!*.main #searchTerm {*!*/
+/*!*width: 265px;*!*/
+/*!*height: 50px;*!*/
+/*!*padding: 0 15px;*!*/
+/*!*}*!*/
+
+/*#searchTerm:focus {*/
+
+/*}*/
+/*.searchBox {*/
+/*width: 300px;*/
+/*vertical-align: middle;*/
+/*white-space: nowrap;*/
+/*position: relative;*/
+/*}*/
+/*.searchBox #searchTerm {*/
+/*width: 300px;*/
+/*height: 50px;*/
+/*background: #92DCE5;*/
+/*border: none;*/
+/*font-size: 10pt;*/
+/*float: left;*/
+/*color: #5B6B75;*/
+/*padding-left: 45px;*/
+/*-webkit-border-radius: 5px;*/
+/*-moz-border-radius: 5px;*/
+/*border-radius: 5px;*/
+
+/*-webkit-transition: background .55s ease;*/
+/*-moz-transition: background .55s ease;*/
+/*-ms-transition: background .55s ease;*/
+/*-o-transition: background .55s ease;*/
+/*transition: background .55s ease;*/
+/*}*/
+/*.searchBox input#searchTerm::-webkit-input-placeholder {*/
+/*color: #65737e;*/
+/*}*/
+
+/*.searchBox input#searchTerm:-moz-placeholder { !* Firefox 18- *!*/
+/*color: #65737e;*/
+/*}*/
+
+/*.searchBox input#searchTerm::-moz-placeholder {  !* Firefox 19+ *!*/
+/*color: #65737e;*/
+/*}*/
+
+/*.searchBox input#searchTerm:-ms-input-placeholder {*/
+/*color: #65737e;*/
+/*}*/
+
+/*.searchBox .icon {*/
+/*vertical-align: middle;*/
+/*position: absolute !important;*/
+/*top: 50%;*/
+/*margin-left: 17px;*/
+/*margin-right: 17px;*/
+/*margin-top: 17px;*/
+/*z-index: 1;*/
+/*color: #4f5b66;*/
+
+/*}*/
+
+/*.searchBoxsearchBox input#searchTerm:hover, .searchBox input#searchTerm:focus, .searchBox input#searchTerm:active{*/
+/*outline:none;*/
+/*background: #ffffff;*/
+/*}*/
+
+.input {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin: 1em;
+    max-width: 350px;
+    width: calc(100% - 2em);
+    vertical-align: top;
+    border: 1px solid;
+}
+
+.input__field {
+    position: relative;
+    display: block;
+    float: right;
+    padding: 0.3em;
+    width: 60%;
+    left: 23px;
+    font-size: 20px;
+    border: 2px #f0f0f0;
+    border-radius: 10px !important;
+    background: #f0f0f0;
+    color: #aaa;
+    font-weight: 400;
+    font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-appearance: none; /* for box shadows to show on iOS */
+}
+
+.input__field:focus {
+    outline: none;
+}
+
+.input__label {
+    display: inline-block;
+    float: right;
+    padding: 0 1em;
+    width: 40%;
+    top: -12px;
+    font-size: 15px;
+    color: #696969;
+    font-weight: bold;
+    /*font-size: 70.25%;*/
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.input__label-content {
+    position: relative;
+    display: block;
+    padding: 1.6em 0;
+    width: 100%;
+
+}
+
+.graphic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    fill: none;
+}
+
+.icon {
+    color: #ddd;
+    font-size: 150%;
+}
+
+/* Makiko */
+.input--makiko {
+    overflow: hidden;
+    background: #2F3238;
+}
+
+.input__field--makiko {
+    width: 100%;
+    background: transparent;
+    color: #797693;
+    z-index: 10;
+    font-weight: 500;
+}
+
+.input__label--makiko {
+    position: absolute;
+    width: 100%;
+    text-align: left;
+    pointer-events: none;
+    color: #fff;
+}
+
+.input__label--makiko::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 53%;
+    left: 10px;
+    background: url(../images/search.svg) no-repeat center center;
+    background-size: 100%;
+    -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+.input__label-content--makiko {
+    display: block;
+    top: -2px;
+    padding: 1.5em 0 0 2.75em;
+    left: -4px;
+    -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+.input__field--makiko:focus + .input__label--makiko::before,
+.input--filled .input__label--makiko::before {
+    -webkit-transform: scale3d(38, 38, 1);
+    transform: scale3d(38, 38, 1);
+}
+
+.ui-autocomplete {
+    font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0 auto !important;
+    width: 248px !important;
+    position: absolute;
+    border: none !important;
+}
+
+h1 {
+    text-align: center;
+}
+
+ol {
+    margin-left: -25px;
+}
+
+ol li {
+    margin: 5px 0;
+
+}
+
+.type {
+    float: right;
+    color: darkgray;
+}
+
