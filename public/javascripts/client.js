@@ -5,7 +5,7 @@
 
 $(function () {
 
-    var APIURL = "http://localhost:3000/entities";
+    var APIURL = "https://searchngin.herokuapp.com/entities";
     var total  = 0;
     $('#myform').submit(function ( event ) {
         event.preventDefault();
