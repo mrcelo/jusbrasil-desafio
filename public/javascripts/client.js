@@ -20,7 +20,7 @@ $(function () {
             url:         APIURL,
             contentType: "application/json; charset=utf-8",
             data:        { "q": searchTerms },
-            cache:       false,
+            cache:       true,
             success:     function ( data ) {
 
                 if ( data.total == 0 ) {
@@ -52,7 +52,7 @@ $(function () {
                 url:         APIURL,
                 contentType: "application/json; charset=utf-8",
                 data:        { "q": request.term },
-                cache:       false,
+                cache:       true,
                 success:     function ( data ) {
                     total = data.total;
                     response($.map(data.hits, function ( item ) {
