@@ -5,7 +5,7 @@
 
 $(function () {
 
-    var APIURL = "https://searchngin.herokuapp.com/entities";
+    var APIURL = "http://localhost:3000/entities/";
     var total  = 0;
     $('#myform').submit(function ( event ) {
         event.preventDefault();
@@ -25,7 +25,7 @@ $(function () {
 
                 if ( data.total == 0 ) {
                     total = 0;
-                    $('ol').append('<h3>No results.</h3>')
+                    $('ol').append('<h3>No results for \"' + searchTerms + '\".</h3>')
                 } else {
 
                     $('ol').append('<h3>Results (' + data.total + ')</h3>')
@@ -49,17 +49,16 @@ $(function () {
 
             $.ajax({
                 type:        "GET",
-                url:         APIURL,
+                url:         APIURL + "/suggest/",
                 contentType: "application/json; charset=utf-8",
                 data:        { "q": request.term },
                 cache:       true,
                 success:     function ( data ) {
-                    total = data.total;
-                    response($.map(data.hits, function ( item ) {
+                    total = data.length;
+                    response($.map(data, function ( item ) {
                         return {
-                            label: item._source.title,
-                            value: item._source.title,
-                            type:  item._source.entitytype
+                            label: item.text,
+                            value: item.text
                         }
                     }));
 
@@ -69,9 +68,9 @@ $(function () {
         minLength: 2,
         select:    function ( event, ui ) {
             // log(ui.item ? "Selected: " + ui.item.label : "Nothing selected, input was " + this.value);
-            $('ol').empty();
-            $('ol').append('<h3>Results (' + total + ')</h3>');
-            $('ol').append('<li>' + ui.item.label + '<span class="type">' + ui.item.type + '</span>' + '</li>');
+            // $('ol').empty();
+            // $('ol').append('<h3>Results (' + total + ')</h3>');
+            // $('ol').append('<li>' + ui.item.label + '<span class="type">' + ui.item.type + '</span>' + '</li>');
         }
     })
 

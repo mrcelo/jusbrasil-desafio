@@ -5,8 +5,8 @@ var searchModule = require('../elasticsearch');
 
 // Ajv is the JSON validator;
 // instantiate the validator and define the schema to check against
-var Ajv = require('ajv');
-var ajv = new Ajv();
+var Ajv          = require('ajv');
+var ajv          = new Ajv();
 var entitySchema = {
     "properties": {
         "title":      {
@@ -21,31 +21,37 @@ var entitySchema = {
 
 };
 
-
 /**
  * Handle GET requests to '/entities/';
  * Search endpoint
  */
 //
 //
-// router.get('/suggest/:input', function (req, res) {
-//     console.log(req.params.input);
-//     searchModule.getSuggestions(req.params.input).then(function ( result ) {
-//         res.json(result);
-//     });
-// });
+router.get('/suggest/', function ( req, res ) {
+    console.log(req.query.q);
+    searchModule.getSuggestions(req.query.q).then(function ( result ) {
+        if ( result ) {
+
+            var resultsarray = result.suggest[ 0 ].options;
+            res.json(resultsarray);
+        }
+    });
+});
 router.get('/', function ( req, res ) {
 
-    // decode URI components
-    // var query      = decodeURIComponent(req.query.q),
-    //     entitytype = decodeURIComponent(req.query.entitytype);
-    //
-    // console.log("Request query: " + query + "\n" + "Request entitytype: " + entitytype);
+    var q = req.query.q, type = req.query.type;
 
-    searchModule.execute(req.query.q, req.query.entitytype, function ( data ) {
+    // Normalize to lowercase to optimize for elasticsearch analyzer
+    if ( q ) {
+        q = q.toLowerCase();
+    }
+    if ( type ) {
+        type = type.toLowerCase();
+    }
+
+    searchModule.execute(q, type, function ( data ) {
         res.json(data);
     });
-
 
 });
 

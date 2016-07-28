@@ -1,8 +1,7 @@
 var elasticsearch = require('elasticsearch');
 
 var elasticClient = new elasticsearch.Client({
-    host: 'https://54jesnlt:zn1lgjbidi6kggld@ivy-8442486.us-east-1.bonsai.io',
-    auth: '54jesnlt:zn1lgjbidi6kggld',
+    host: 'http://localhost:9200',
     log:  'info'
 });
 
@@ -16,7 +15,12 @@ module.exports.createEntity = function createEntity( entity, callback ) {
         type:  "entity",
         body:  {
             title:      entity.title,
-            entitytype: entity.entitytype
+            entitytype: entity.entitytype,
+            suggest:    {
+                input:   entity.title.split(" "),
+                output:  entity.title,
+                payload: entity.metadata || {}
+            }
         }
     }).then(function ( resp ) {
         callback(resp);
@@ -27,6 +31,21 @@ module.exports.createEntity = function createEntity( entity, callback ) {
 
 };
 
+module.exports.getSuggestions = function getSuggestions( input ) {
+    return elasticClient.suggest({
+        index: indexName,
+        type:  "entity",
+        body:  {
+            suggest: {
+                text:       input,
+                completion: {
+                    field: "suggest",
+                    fuzzy: true
+                }
+            }
+        }
+    })
+};
 
 module.exports.execute = function ( title, type, callback ) {
 
@@ -85,11 +104,11 @@ module.exports.execute = function ( title, type, callback ) {
                 type:  'entity',
                 body:  {
                     query: {
-                        "match_phrase_prefix": {
+                        "match": {
                             "title": {
 
                                 "query":    title,
-                                "max_expansions": 10
+                                "operator": "and"
 
                             }
                         }
