@@ -104,17 +104,22 @@ module.exports.execute = function ( title, type, callback ) {
                 type:  'entity',
                 body:  {
                     query: {
-                        "match": {
+                        // "match": {
+                        //     "title": {
+                        //         "query":    title,
+                        //         "operator": "and"
+                        //
+                        //     }
+                        // }
+                        //
+
+                        "match_phrase_prefix": {
                             "title": {
-
-                                "query":    title,
-                                "operator": "and"
-
+                                "query": title,
+                                "slop":  10
                             }
                         }
-
                     }
-
                 }
             }).then(function ( resp ) {
 

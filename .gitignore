@@ -40,3 +40,6 @@ jspm_packages
 .idea
 
 .DS_Store
+
+bundle.js
+npm-debug.log
