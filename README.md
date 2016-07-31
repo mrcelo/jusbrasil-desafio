@@ -8,7 +8,8 @@ Search engine para desafio JusBrasil, React-flavored.
 4. Navigate to `http://localhost:3000/`
 
 ### Note
-If you are running the server locally, you may need to disable Chrome Web Security on your instance so the localhost elasticsearch client (through ajax) can talk to the elastic API. [Click for more information.](http://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome) Naturally the live demo does not present this issue.
+* Best viewed in recent versions of Google Chrome.
+* If you are running the server locally, you may need to disable Chrome Web Security on your instance so the localhost elasticsearch client (through ajax) can talk to the elastic API. [Click for more information.](http://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome) Naturally the live demo does not present this issue.
 
 ## API
 ###Endpoints
