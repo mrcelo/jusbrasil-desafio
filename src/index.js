@@ -20,6 +20,8 @@ class App extends React.Component {
 
     }
 
+
+    // on startup, populate the List
     componentDidMount() {
         this.setState({
             searching: true
@@ -47,15 +49,15 @@ class App extends React.Component {
 
     }
 
+
     componentWillUnmount() {
+        // this should prevent hangups on moveaway
         this.serverRequest.abort();
 
     }
 
+    // fetch a new term query
     search( term ) {
-        // this.setState({
-        //     searching: true
-        // });
         $.ajax({
             type:        "GET",
             url:         "https://searchngin.herokuapp.com/entities/",
@@ -74,10 +76,6 @@ class App extends React.Component {
             }.bind(this)
         });
 
-
-        this.setState({
-            term
-        });
     }
 
     render() {
@@ -85,7 +83,9 @@ class App extends React.Component {
             <div>
                 <h1>Searchngin</h1>
                 <SearchBar onSearchTermChange={this.search.bind(this)}/>
-                <EntityList result={this.state.entities} term={this.state.term} searching={this.state.searching}/>
+                <EntityList result={this.state.entities}
+                            term={this.state.term}
+                            searching={this.state.searching}/>
             </div>
         );
     }

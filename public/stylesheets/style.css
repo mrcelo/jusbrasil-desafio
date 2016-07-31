@@ -34,6 +34,7 @@ a {
     width: calc(100% - 2em);
     vertical-align: top;
     border: 1px solid;
+    height: 39px;
 }
 
 .input__field {
@@ -108,6 +109,7 @@ a {
 .input__label--makiko {
     position: absolute;
     width: 100%;
+    top: 10px;
     text-align: left;
     pointer-events: none;
     color: #EAEDE8;
@@ -118,7 +120,6 @@ a {
     position: absolute;
     width: 18px;
     height: 18px;
-    top: 53%;
     left: 10px;
     background: url(../images/search.svg) no-repeat center center;
     background-size: 100%;
@@ -128,8 +129,8 @@ a {
 
 .input__label-content--makiko {
     display: block;
-    top: -2px;
-    padding: 1.5em 0 0 2.75em;
+    top: -1px;
+    padding: 0em 0 0 2.75em;
     left: -4px;
     -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
     transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);

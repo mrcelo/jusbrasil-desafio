@@ -36,12 +36,12 @@ class SearchBar extends React.Component {
 
     onInputChange( term ) {
 
-        // these characters at the beginning of string can crash the runtime
+        // these characters at the beginning of input string can crash the runtime
         if ( (term[ 0 ] != "$") && (term[ 0 ] != "^") && (term.indexOf('*') == -1) ) {
             this.setState({ term });
             this.props.onSearchTermChange(term);
         } else {
-            console.log("Nah ah ah");
+            console.log("Invalid character");
         }
 
 

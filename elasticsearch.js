@@ -8,7 +8,7 @@ var elasticClient = new elasticsearch.Client({
 var indexName = "entities";
 
 
-// create an entity
+// create a new entity
 module.exports.createEntity = function createEntity( entity, callback ) {
     elasticClient.create({
         index: indexName,
@@ -31,6 +31,7 @@ module.exports.createEntity = function createEntity( entity, callback ) {
 
 };
 
+// get suggestions from suggest-completion feature of ES
 module.exports.getSuggestions = function getSuggestions( input ) {
     return elasticClient.suggest({
         index: indexName,
@@ -47,6 +48,7 @@ module.exports.getSuggestions = function getSuggestions( input ) {
     })
 };
 
+// execute a search
 module.exports.execute = function ( title, type, callback ) {
 
     if ( (title) && (type) ) {
@@ -98,20 +100,14 @@ module.exports.execute = function ( title, type, callback ) {
     }
     else if ( title ) {
         if ( hasWhiteSpace(title) ) {
+            // whitespace means more than one query
+            // else if just one query, search using wildcard for more results
 
             elasticClient.search({
                 index: indexName,
                 type:  'entity',
                 body:  {
                     query: {
-                        // "match": {
-                        //     "title": {
-                        //         "query":    title,
-                        //         "operator": "and"
-                        //
-                        //     }
-                        // }
-                        //
 
                         "match_phrase_prefix": {
                             "title": {
