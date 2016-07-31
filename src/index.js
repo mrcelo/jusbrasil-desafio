@@ -23,8 +23,9 @@ class App extends React.Component {
 
     // on startup, populate the List
     componentDidMount() {
+
         this.setState({
-            searching: true
+            searching: true     // in order to show initial loading message
         });
         this.serverRequest = $.ajax({
             type:        "GET",
@@ -35,6 +36,7 @@ class App extends React.Component {
             success:     function ( data ) {
 
                 let results = [];
+
                 data.hits.map(hit=>results.push(hit));
 
                 console.log(results);
@@ -44,13 +46,14 @@ class App extends React.Component {
                     searching: false
                 })
 
-            }.bind(this)
+            }.bind(this) // scope 'this'
         });
 
     }
 
 
     componentWillUnmount() {
+
         // this should prevent hangups on moveaway
         this.serverRequest.abort();
 
@@ -58,6 +61,9 @@ class App extends React.Component {
 
     // fetch a new term query
     search( term ) {
+        this.setState({
+            term: term
+        });
         $.ajax({
             type:        "GET",
             url:         "https://searchngin.herokuapp.com/entities/",
@@ -75,9 +81,7 @@ class App extends React.Component {
 
             }.bind(this)
         });
-        this.setState({
-            term
-        });
+
 
     }
 

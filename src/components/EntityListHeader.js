@@ -15,7 +15,7 @@ const EntityListHeader = ( { searching, resultsCount, term } ) => {
     else if ( resultsCount == 0 ) {
         return (
             <div>
-                <h3>No results found for "{term}"</h3>
+                <h3>No results found for {term}</h3>
             </div>
         )
     }

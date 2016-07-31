@@ -16,6 +16,7 @@ class EntityList extends React.Component {
 
     render() {
 
+
         const results = this.props.result.map(( entity ) => {
 
             return (
@@ -24,6 +25,8 @@ class EntityList extends React.Component {
                            term={this.props.term}/>
             );
         });
+
+
 
         return (
             <div className="entitylist">

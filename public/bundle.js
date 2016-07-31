@@ -110,8 +110,9 @@
 	    _createClass(App, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	
 	            this.setState({
-	                searching: true
+	                searching: true // in order to show initial loading message
 	            });
 	            this.serverRequest = $.ajax({
 	                type: "GET",
@@ -122,6 +123,7 @@
 	                success: function (data) {
 	
 	                    var results = [];
+	
 	                    data.hits.map(function (hit) {
 	                        return results.push(hit);
 	                    });
@@ -132,12 +134,13 @@
 	                        entities: results,
 	                        searching: false
 	                    });
-	                }.bind(this)
+	                }.bind(this) // scope 'this'
 	            });
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
+	
 	            // this should prevent hangups on moveaway
 	            this.serverRequest.abort();
 	        }
@@ -147,6 +150,9 @@
 	    }, {
 	        key: 'search',
 	        value: function search(term) {
+	            this.setState({
+	                term: term
+	            });
 	            $.ajax({
 	                type: "GET",
 	                url: "https://searchngin.herokuapp.com/entities/",
@@ -164,9 +170,6 @@
 	                        entities: results
 	                    });
 	                }.bind(this)
-	            });
-	            this.setState({
-	                term: term
 	            });
 	        }
 	    }, {
@@ -22155,6 +22158,7 @@
 	
 	            // these characters at the beginning of input string can crash the runtime
 	            if (term[0] != "$" && term[0] != "^" && term.indexOf('*') == -1) {
+	
 	                this.setState({ term: term });
 	                this.props.onSearchTermChange(term);
 	            } else {
@@ -22619,9 +22623,8 @@
 	            _react2.default.createElement(
 	                'h3',
 	                null,
-	                'No results found for "',
-	                term,
-	                '"'
+	                'No results found for ',
+	                term
 	            )
 	        );
 	    } else if (term == '') {
