@@ -23,7 +23,7 @@ const EntityListHeader = ( { searching, resultsCount, term } ) => {
 
         return (
             <div>
-                <h3>Showing all entities</h3>
+                <h3>Showing all</h3>
             </div>
         )
     }

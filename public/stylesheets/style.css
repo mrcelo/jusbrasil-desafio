@@ -1,11 +1,11 @@
 body {
     padding: 50px;
     font-size: 16px;
-    font-family: 'Titillium Web', sans-serif !important;
+    font-family: 'Dosis', sans-serif !important;
     letter-spacing: 0.7px;
 
     background: #2F3238;
-    color: #FFFFFF;
+    color: #EAEDE8;
     box-sizing: border-box;
 }
 
@@ -40,7 +40,7 @@ a {
     position: relative;
     display: block;
     float: right;
-    padding: 0.3em;
+    padding: 0.2em;
     width: 60%;
     left: 23px;
     font-size: 20px;
@@ -64,7 +64,7 @@ a {
     width: 40%;
     top: -12px;
     font-size: 15px;
-    color: #696969;
+    color: #EAEDE8;
     font-weight: bold;
     /*font-size: 70.25%;*/
     -webkit-font-smoothing: antialiased;
@@ -110,7 +110,7 @@ a {
     width: 100%;
     text-align: left;
     pointer-events: none;
-    color: #fff;
+    color: #EAEDE8;
 }
 
 .input__label--makiko::before {
@@ -160,9 +160,10 @@ h3 {
     text-align: center;
     font-size: 14px;
     font-family: "Dosis", sans-serif;
+    font-weight: 400;
     text-transform: uppercase;
     margin-bottom: 38px;
-    color: cadetblue;
+    color: #EAEDE8;
 }
 
 ul {
@@ -176,14 +177,26 @@ ul li {
     margin: 3px 0;
     /*border: solid 1px;*/
     cursor: pointer;
-    padding: 4px;
+    padding: 2px;
 
 }
 
 .type {
+    /*float: right;*/
+    /*color: darkgray;*/
+    /*text-transform: capitalize;*/
     float: right;
-    color: darkgray;
-    text-transform: capitalize;
+    color: black;
+    margin-left: 21px;
+    font-size: 13px;
+    font-style: inherit;
+    font-weight: 600;
+    margin-right: 14px;
+    padding: 1px 6px;
+    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    text-transform: Capitalize;
+    background-color: #EAEDE8;
 }
 
 .tip {
