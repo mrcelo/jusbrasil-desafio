@@ -26,7 +26,7 @@ class App extends React.Component {
         });
         this.serverRequest = $.ajax({
             type:        "GET",
-            url:         "http://localhost:3000/entities/",
+            url:         "https://searchngin.herokuapp.com/entities/",
             contentType: "application/json; charset=utf-8",
             data:        { "q": this.state.term },
             cache:       true,
@@ -58,7 +58,7 @@ class App extends React.Component {
         // });
         $.ajax({
             type:        "GET",
-            url:         "http://localhost:3000/entities/",
+            url:         "https://searchngin.herokuapp.com/entities/",
             contentType: "application/json; charset=utf-8",
             data:        { "q": term },
             cache:       true,
