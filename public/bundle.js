@@ -165,6 +165,9 @@
 	                    });
 	                }.bind(this)
 	            });
+	            this.setState({
+	                term: term
+	            });
 	        }
 	    }, {
 	        key: 'render',
