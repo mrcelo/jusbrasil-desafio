@@ -16,7 +16,7 @@ If you are running the server locally, you may need to disable Chrome Web Securi
 * `curl -XGET http://localhost:3000/entities/?q=som`
 * `curl -XGET http://localhost:3000/entities/?q=som&entitytype=topic`
 
-## Heroku Demo
+## Demo
 ###[searchngin.herokuapp.com](https://searchngin.herokuapp.com)
 API in demo is at [https://searchngin.herokuapp.com/entities](https://searchngin.herokuapp.com/entities)
 
