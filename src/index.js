@@ -75,6 +75,9 @@ class App extends React.Component {
 
             }.bind(this)
         });
+        this.setState({
+            term
+        });
 
     }
 
