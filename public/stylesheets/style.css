@@ -196,7 +196,7 @@ ul li {
     box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
     border-radius: 3px;
     text-transform: Capitalize;
-    background-color: #EAEDE8;
+    background-color: #9CB380;
 }
 
 .tip {
@@ -209,6 +209,6 @@ ul li {
 }
 
 .highlight {
-    background-color: #fff;
-    color: #2F3238;
+    background-color: #C97064;
+    color: black;
 }
