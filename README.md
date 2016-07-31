@@ -1,5 +1,5 @@
 # Searchngin
-Search engine para desafio JusBrasil
+Search engine para desafio JusBrasil, React-flavored.
 
 ## Install
 1. Run `npm install`
@@ -8,7 +8,7 @@ Search engine para desafio JusBrasil
 4. Navigate to `http://localhost:3000/`
 
 ### Note
-If you are running the server locally, you may need to disable Chrome Web Security on your instance so the localhost client (thorugh ajax) can talk to the web API. [Click for more information.](http://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome). The live demo does not present this issue.
+If you are running the server locally, you may need to disable Chrome Web Security on your instance so the localhost client (thorugh ajax) can talk to the elastic API. [Click for more information.](http://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome) Naturally the live demo does not present this issue.
 
 ## API
 ###Endpoints
