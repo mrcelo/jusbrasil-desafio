@@ -13,16 +13,17 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            entities: [],
-            term:     ''
+            entities:  [],
+            term:      '',
+            searching: false
         };
-
-        // this.search = this.search.bind(this);
-        const APIURL = "http://localhost:3000/entities/";
 
     }
 
     componentDidMount() {
+        this.setState({
+            searching: true
+        });
         this.serverRequest = $.ajax({
             type:        "GET",
             url:         "http://localhost:3000/entities/",
@@ -32,15 +33,13 @@ class App extends React.Component {
             success:     function ( data ) {
 
                 let results = [];
-                data.hits.map(function ( hit ) {
-
-                    results.push(hit);
-                });
+                data.hits.map(hit=>results.push(hit));
 
                 console.log(results);
 
                 this.setState({
-                    entities: results
+                    entities:  results,
+                    searching: false
                 })
 
             }.bind(this)
@@ -54,9 +53,9 @@ class App extends React.Component {
     }
 
     search( term ) {
-        // TODO - Search for term using elasticsearch client
-        console.log("Input is now: " + term);
-
+        // this.setState({
+        //     searching: true
+        // });
         $.ajax({
             type:        "GET",
             url:         "http://localhost:3000/entities/",
@@ -66,10 +65,7 @@ class App extends React.Component {
             success:     function ( data ) {
 
                 let results = [];
-                data.hits.map(function ( hit ) {
-
-                    results.push(hit);
-                });
+                data.hits.map(hit=>results.push(hit));
 
                 this.setState({
                     entities: results
@@ -86,9 +82,9 @@ class App extends React.Component {
     render() {
         return (
             <div>
-
+                <h1>Searchngin</h1>
                 <SearchBar onSearchTermChange={this.search.bind(this)}/>
-                <EntityList result={this.state.entities}/>
+                <EntityList result={this.state.entities} term={this.state.term} searching={this.state.searching}/>
             </div>
         );
     }

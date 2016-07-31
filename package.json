@@ -19,6 +19,7 @@
     "morgan": "~1.7.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
+    "react-highlight-words": "^0.3.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {

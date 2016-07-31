@@ -3,11 +3,16 @@
  */
 
 import React from 'react';
+import Highlighter from 'react-highlight-words';
 
-const EntityRow = ( { entity } ) => {
+const EntityRow = ( { entity, term } ) => {
 
     return (
-        <li>{entity.title}</li>
+        <li><Highlighter searchWords={term.split(' ')}
+                         textToHighlight={entity.title}
+                         highlightClassName={"highlight"}
+        /> <span
+            className="type">{entity.entitytype}</span></li>
     );
 
 }
